@@ -27,6 +27,30 @@
    "configFile": "lakefile.toml"
   },
   {
+   "url": "https://github.com/jtraverso/vizing",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "33b2de836095cf92bc1dec33b6f8787e4036bbc6",
+   "name": "vizing",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "33b2de836095cf92bc1dec33b6f8787e4036bbc6",
+   "inherited": false,
+   "configFile": "lakefile.toml"
+  },
+  {
+   "url": "https://github.com/jtraverso/shannon-edge-colouring",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "d590cfeb50d88710b454905f896aab928fcb5156",
+   "name": "shannon_edge_colouring",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "d590cfeb50d88710b454905f896aab928fcb5156",
+   "inherited": false,
+   "configFile": "lakefile.toml"
+  },
+  {
    "url": "https://github.com/leanprover-community/plausible",
    "type": "git",
    "subDir": null,
@@ -120,6 +144,18 @@
    "manifestFile": "lake-manifest.json",
    "inputRev": "v4.35.0-rc3",
    "inherited": true,
+   "configFile": "lakefile.toml"
+  },
+  {
+   "url": "https://github.com/jtraverso/asymptotic-one-factorization",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "50bc0b383e5447dc4b70db20e3af1c6c5efc1c2f",
+   "name": "asymptotic_one_factorization",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "50bc0b383e5447dc4b70db20e3af1c6c5efc1c2f",
+   "inherited": false,
    "configFile": "lakefile.toml"
   }
  ],

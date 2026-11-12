@@ -16,6 +16,16 @@ name = "menger_hamilton"
 git = "https://github.com/jtraverso/menger-hamiltonian"
 rev = "35c5f684f9bfbd244bd0999ce725623ab571adb6"
 
+[[require]]
+name = "vizing"
+git = "https://github.com/jtraverso/vizing"
+rev = "33b2de836095cf92bc1dec33b6f8787e4036bbc6"
+
+[[require]]
+name = "shannon_edge_colouring"
+git = "https://github.com/jtraverso/shannon-edge-colouring"
+rev = "d590cfeb50d88710b454905f896aab928fcb5156"
+
 [[lean_lib]]
 name = "PSLib"
 globs = ["PSLib.+"]
@@ -27,3 +37,8 @@ roots = ["PlantholtShanChallenge"]
 [[lean_lib]]
 name = "PlantholtShanSolution"
 roots = ["PlantholtShanSolution"]
+
+[[require]]
+name = "asymptotic_one_factorization"
+git = "https://github.com/jtraverso/asymptotic-one-factorization"
+rev = "50bc0b383e5447dc4b70db20e3af1c6c5efc1c2f"
