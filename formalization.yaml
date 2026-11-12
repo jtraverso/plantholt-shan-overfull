@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Plantholt–Shan, Section 2: Hakimi's theorem, Hamilton-connectedness and spanning linear forests"
+  description: >-
+    The auxiliary results of Plantholt and Shan's proof of the asymptotic overfull conjecture
+    (arXiv:2105.05286, Section 2), in Lean 4 / Mathlib, as a first version of a package that will
+    add their Theorems 1.2 and 1.3. hakimi (Theorem 2.5, Hakimi 1962): d : V → ℕ is the degree
+    function of a loopless multigraph (symmetric multiplicities with zero diagonal) iff ∑ d is even
+    and 2 d v ≤ ∑ d for every v. hamiltonConnected_of_minDegree (Theorem 2.6, Hamilton-connected
+    part, in the form δ ≥ n/2 + 1): a graph on n ≥ 5 vertices with n + 2 ≤ 2δ has a Hamiltonian path
+    between any two distinct vertices (Dirac's theorem on G − u − v, from the registered
+    menger-hamiltonian entry, and a pigeonhole choice of consecutive cycle neighbours).
+    exists_spanning_paths (Lemma 2.12): for t + 1 pairs (aᵢ, bᵢ) of vertices, all distinct, in a
+    graph with n + 6(t + 1) + 2 ≤ 2δ and 3(t + 1) + 5 ≤ n, there are pairwise vertex-disjoint paths
+    from aᵢ to bᵢ covering all vertices (join a₀, b₀ through a common neighbour, delete the three
+    vertices, recurse; the last pair is joined by a Hamiltonian path). One definition
+    (IsMultigraph). Three statements.
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C07", "05C38", "05C45"]
+
+repository:
+  role: "substantive-development"
+
+sources:
+  - title: "Edge coloring graphs with large minimum degree"
+    authors:
+      - "Michael J. Plantholt"
+      - "Songling Shan"
+    id: "arXiv:2105.05286"
+    type: "paper"
+    location: "arXiv:2105.05286v2: Theorem 2.5, Theorem 2.6 (second part), Lemma 2.12."
+    relationship: "formalizes"
+    note: >-
+      Lemma 2.12 is formalized with explicit linear constants (n + 6(t + 1) + 2 ≤ 2δ) instead of the
+      article's δ ≥ (1 + ε)n/2 with t ≤ εn/8; the proof is the article's. Theorem 2.6 is formalized
+      in the weaker form δ ≥ n/2 + 1, which is what the article's applications use. The
+      formalization is by a different author; the article's authors were not involved.
+    license: "arXiv non-exclusive license"
+    author_endorsement: "not-contacted"
+  - title: "On Realizability of a Set of Integers as Degrees of the Vertices of a Linear Graph. I"
+    authors:
+      - "S. L. Hakimi"
+    id: "doi:10.1137/0110037"
+    type: "paper"
+    location: "Journal of the Society for Industrial and Applied Mathematics 10 (1962), 496–506."
+    relationship: "formalizes"
+    note: "The multigraph degree-sequence theorem; proof written from the statement."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "Hamilton connected graphs"
+    authors:
+      - "Øystein Ore"
+    type: "paper"
+    location: "Journal de Mathématiques Pures et Appliquées 42 (1963), 21–27."
+    relationship: "background"
+    note: "Ore's sharp Hamilton-connectedness theorem (σ₂ ≥ n + 1); the weaker δ ≥ n/2 + 1 form is formalized."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "PALOMAR-2026-10-15-000020 v2 (jtraverso/menger-hamiltonian @ 35c5f68)"
+    relationship: "builds-on"
+    note: >-
+      Pinned dependency: Hamiltonicity.dirac, Hamiltonicity.exists_cycArr_of_isHamiltonian,
+      Hamiltonicity.walkOf.
+  - id: "PALOMAR-2026-10-16-000017 (Erdős–Gallai and Havel–Hakimi)"
+    relationship: "related"
+    note: "Simple-graph degree sequences (Havel–Hakimi); the multigraph theorem here is a different statement."
+
+status:
+  scope: >-
+    Three auxiliary statements of Plantholt–Shan, Section 2. Theorems 1.2 and 1.3 (the overfull
+    conjecture for δ ≥ (1 + ε)n) are not yet included; their regular case is
+    jtraverso/asymptotic-one-factorization.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        Read the article, wrote the library (PSLib/), the Challenge/Solution pair and the packaging
+        under the author's direction. Checked with a local build against the pinned dependency,
+        #print axioms and a comparison of the elaborated Challenge and Solution statements (pp.all)
+        (Lean v4.35.0-rc3, Mathlib c55e6e786f49471c72fbddbec5415808896aec1e).
+      cost:
+        wall_time: "a few hours"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "Natural-language instructions in Spanish, directed by the author."
+  spend_usd: "subscription-based"
+  notes: >-
+    The Lean development is AI-written under the author's direction and mechanically verified: no
+    sorry, axioms limited to propext, Classical.choice and Quot.sound, identical elaborated
+    statements in the Challenge and the Solution.
+
+fidelity:
+  divergences: >-
+    Explicit linear constants replace the article's asymptotic ones in Lemma 2.12; Theorem 2.6 in
+    the δ ≥ n/2 + 1 form; Hakimi's theorem for degree functions instead of sorted sequences
+    (equivalent). Paths are Mathlib walks with IsPath.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Opus 5.5 (AI agent in Claude Code, acting for the author)"
+  notes: >-
+    Agent review by Claude Opus 5.5, checking the statements against the article. Smallest cases:
+    one vertex for Hakimi (only d = 0); n = 5 forces K₅ for Hamilton-connectedness; t = 0 in Lemma
+    2.12 is Hamilton-connectedness. No independent human review has been performed. No novelty is
+    claimed.
+
+alignment:
+  namespace: "PlantholtShan"
+  statements:
+    - {source: "Plantholt–Shan Theorem 2.5 (Hakimi 1962)", lean: "PlantholtShan.hakimi", module: "PlantholtShanChallenge", status: "proved"}
+    - {source: "Plantholt–Shan Theorem 2.6 (Hamilton-connected part, δ ≥ n/2 + 1)", lean: "PlantholtShan.hamiltonConnected_of_minDegree", module: "PlantholtShanChallenge", status: "proved"}
+    - {source: "Plantholt–Shan Lemma 2.12", lean: "PlantholtShan.exists_spanning_paths", module: "PlantholtShanChallenge", status: "proved"}
+
+acknowledgements: >-
+  Mathlib and the Lean community.
