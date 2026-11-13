@@ -12,6 +12,8 @@ public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.Combinatorics.SimpleGraph.LineGraph
 public import Mathlib.Combinatorics.SimpleGraph.Coloring.Vertex
 public import Plantholt.Main
+public import Mathlib.Combinatorics.SimpleGraph.Subgraph
+public import Mathlib.Data.Set.Card
 public import PSLib.Thm12
 public import PSLib.Thm13c
 public import PSLib.Konig
@@ -125,14 +127,22 @@ theorem theorem_1_3c (ε : ℝ) (hε : 0 < ε) :
       G.lineGraph.Colorable G.maxDegree := by
   exact PSLib.Eng.thm13c ε hε
 
+/-- `G` has a `Δ(G)`-overfull subgraph: a subgraph on an odd number `≥ 3` of vertices with more
+than `Δ(G) (|V(H)| - 1) / 2` edges (the definition `Plantholt.HasOverfullSubgraph` of the
+registered entry `jtraverso/plantholt-overfull-criterion`, restated here so that the statements
+only import Mathlib). -/
+def HasOverfullSubgraph {V : Type*} (G : SimpleGraph V) [Fintype V] [DecidableRel G.Adj] : Prop :=
+  ∃ H : G.Subgraph, Odd H.verts.ncard ∧ 3 ≤ H.verts.ncard ∧
+    G.maxDegree * (H.verts.ncard - 1) < 2 * H.edgeSet.ncard
+
 /-- **Plantholt–Shan, Theorem 1.2.** For `ε > 0` there is `N` such that a graph `G` on
 `2n ≥ 2N` vertices with minimum degree at least `(1 + ε) n` has chromatic index `Δ(G)` if and only
-if it contains no `Δ(G)`-overfull subgraph (`Plantholt.HasOverfullSubgraph`, from the registered
-entry `jtraverso/plantholt-overfull-criterion`). -/
+if it contains no `Δ(G)`-overfull subgraph (`HasOverfullSubgraph`, as in the registered entry
+`jtraverso/plantholt-overfull-criterion`). -/
 theorem theorem_1_2 (ε : ℝ) (hε : 0 < ε) :
     ∃ N : ℕ, ∀ (V : Type u) [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
       (n : ℕ), N ≤ n → Fintype.card V = 2 * n → (1 + ε) * n ≤ G.minDegree →
-      (G.lineGraph.Colorable G.maxDegree ↔ ¬ Plantholt.HasOverfullSubgraph G) := by
+      (G.lineGraph.Colorable G.maxDegree ↔ ¬ HasOverfullSubgraph G) := by
   exact PSLib.Eng.thm12 ε hε
 
 end PlantholtShan

@@ -6,8 +6,10 @@ has chromatic index `Δ` if and only if it has no `Δ`-overfull subgraph.
 
 ## Statements (`PlantholtShanChallenge.lean`)
 
-* `PlantholtShan.theorem_1_2`: Theorem 1.2, with `Plantholt.HasOverfullSubgraph` from
-  [plantholt-overfull-criterion](https://github.com/jtraverso/plantholt-overfull-criterion).
+* `PlantholtShan.theorem_1_2`: Theorem 1.2, with `PlantholtShan.HasOverfullSubgraph`, the definition of
+  [plantholt-overfull-criterion](https://github.com/jtraverso/plantholt-overfull-criterion)
+  restated so that the statements import only Mathlib (definitionally equal to
+  `Plantholt.HasOverfullSubgraph`).
 * `PlantholtShan.theorem_1_3b`, `PlantholtShan.theorem_1_3c`: Theorem 1.3, Conditions (b) and (c).
   Condition (a) (regular graphs) is
   [asymptotic-one-factorization](https://github.com/jtraverso/asymptotic-one-factorization).
