@@ -8,6 +8,13 @@ module
 public import Mathlib.Combinatorics.SimpleGraph.Hamiltonian
 public import Mathlib.Combinatorics.SimpleGraph.Finite
 public import Mathlib.Algebra.Group.Nat.Even
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Combinatorics.SimpleGraph.LineGraph
+public import Mathlib.Combinatorics.SimpleGraph.Coloring.Vertex
+public import Plantholt.Main
+public import PSLib.Thm12
+public import PSLib.Thm13c
+public import PSLib.Konig
 public import PSLib.Hakimi
 public import PSLib.LinForest
 
@@ -21,6 +28,13 @@ degree* (arXiv:2105.05286), Section 2:
 * `hamiltonConnected_of_minDegree` (Theorem 2.6, Hamilton-connected part, in the form
   `δ ≥ n/2 + 1`).
 * `exists_spanning_paths` (Lemma 2.12): spanning linear forests with prescribed pairs of ends.
+* `lemma_2_11` (Lemma 2.11): perfect matchings in bipartite graphs with few low-degree vertices.
+
+and the main results:
+
+* `theorem_1_3b`, `theorem_1_3c` (Theorem 1.3, Conditions (b) and (c)).
+* `theorem_1_2` (Theorem 1.2): for `δ(G) ≥ (1 + ε) n` and `n` large, `χ'(G) = Δ(G)` if and only if
+  `G` has no `Δ(G)`-overfull subgraph.
 -/
 
 @[expose] public section
@@ -70,5 +84,55 @@ theorem exists_spanning_paths {V : Type u} [Fintype V] [DecidableEq V] (G : Simp
       (∀ i j, i ≠ j → ∀ v, v ∈ (P i).support → v ∉ (P j).support) ∧
       ∀ v, ∃ i, v ∈ (P i).support :=
   PSLib.exists_paths t G a b hab ha hb hdeg hn
+
+open Finset
+
+/-- **Plantholt–Shan, Lemma 2.11.** A bipartite graph with sides of size `n` in which every vertex
+has degree at least `t` and at most `t` vertices have degree less than `n / 2` has a perfect
+matching. -/
+theorem lemma_2_11 {α β : Type*} [Fintype α] [Fintype β] [DecidableEq α] [DecidableEq β]
+    (n t : ℕ) (hα : Fintype.card α = n)
+    (hβ : Fintype.card β = n) (R : α → β → Prop) [∀ x y, Decidable (R x y)]
+    (hdx : ∀ x, t ≤ #(univ.filter fun y => R x y)) (hdy : ∀ y, t ≤ #(univ.filter fun x => R x y))
+    (hlow : #(univ.filter fun x => 2 * #(univ.filter fun y => R x y) < n) +
+      #(univ.filter fun y => 2 * #(univ.filter fun x => R x y) < n) ≤ t) :
+    ∃ σ : α → β, Function.Injective σ ∧ ∀ x, R x (σ x) := by
+  exact PSLib.exists_perfect_matching_of_few_low n t hα hβ R hdx hdy hlow
+
+/-- **Plantholt–Shan, Theorem 1.3 (b).** For `ε > 0` there is `N` such that a graph on `2n ≥ 2N`
+vertices with two distinct vertices `x`, `y` with `d(x) = d(y) ≥ (1/2 + 3ε/2) n`, all other
+vertices of degree `Δ(G) ≥ (1 + ε) n`, and `Δ(G) − δ(G) ≤ (1/2 − ε/2) n`, has chromatic index
+`Δ(G)`. -/
+theorem theorem_1_3b (ε : ℝ) (hε : 0 < ε) :
+    ∃ N : ℕ, ∀ (V : Type u) [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+      (n : ℕ), N ≤ n → Fintype.card V = 2 * n →
+      (∃ x y : V, x ≠ y ∧ G.degree x = G.degree y ∧ (1 / 2 + 3 * ε / 2) * n ≤ G.degree x ∧
+        (∀ z, z ≠ x → z ≠ y → G.degree z = G.maxDegree) ∧ (1 + ε) * n ≤ G.maxDegree ∧
+        (G.maxDegree : ℝ) - G.minDegree ≤ (1 / 2 - ε / 2) * n) →
+      G.lineGraph.Colorable G.maxDegree := by
+  exact PSLib.Eng.thm13b ε hε
+
+/-- **Plantholt–Shan, Theorem 1.3 (c).** For `ε > 0` there is `N` such that a graph on `2n ≥ 2N`
+vertices with `Δ(G) − δ(G) ≥ n^{6/7}`, at least `n^{6/7}` vertices of degree `δ(G)`, at least
+`n + 1` vertices of degree `Δ(G)`, and `δ(G) ≥ (1 + ε) n`, has chromatic index `Δ(G)`. -/
+theorem theorem_1_3c (ε : ℝ) (hε : 0 < ε) :
+    ∃ N : ℕ, ∀ (V : Type u) [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+      (n : ℕ), N ≤ n → Fintype.card V = 2 * n →
+      (n : ℝ) ^ ((6 : ℝ) / 7) ≤ (G.maxDegree : ℝ) - G.minDegree →
+      (n : ℝ) ^ ((6 : ℝ) / 7) ≤ #(univ.filter fun v => G.degree v = G.minDegree) →
+      n + 1 ≤ #(univ.filter fun v => G.degree v = G.maxDegree) →
+      (1 + ε) * n ≤ G.minDegree →
+      G.lineGraph.Colorable G.maxDegree := by
+  exact PSLib.Eng.thm13c ε hε
+
+/-- **Plantholt–Shan, Theorem 1.2.** For `ε > 0` there is `N` such that a graph `G` on
+`2n ≥ 2N` vertices with minimum degree at least `(1 + ε) n` has chromatic index `Δ(G)` if and only
+if it contains no `Δ(G)`-overfull subgraph (`Plantholt.HasOverfullSubgraph`, from the registered
+entry `jtraverso/plantholt-overfull-criterion`). -/
+theorem theorem_1_2 (ε : ℝ) (hε : 0 < ε) :
+    ∃ N : ℕ, ∀ (V : Type u) [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+      (n : ℕ), N ≤ n → Fintype.card V = 2 * n → (1 + ε) * n ≤ G.minDegree →
+      (G.lineGraph.Colorable G.maxDegree ↔ ¬ Plantholt.HasOverfullSubgraph G) := by
+  exact PSLib.Eng.thm12 ε hε
 
 end PlantholtShan

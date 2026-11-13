@@ -4,7 +4,11 @@
   "theorem_names": [
     "PlantholtShan.hakimi",
     "PlantholtShan.hamiltonConnected_of_minDegree",
-    "PlantholtShan.exists_spanning_paths"
+    "PlantholtShan.exists_spanning_paths",
+    "PlantholtShan.lemma_2_11",
+    "PlantholtShan.theorem_1_3b",
+    "PlantholtShan.theorem_1_3c",
+    "PlantholtShan.theorem_1_2"
   ],
   "definition_names": [],
   "permitted_axioms": [
