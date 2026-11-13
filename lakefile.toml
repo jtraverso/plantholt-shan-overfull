@@ -42,3 +42,8 @@ roots = ["PlantholtShanSolution"]
 name = "asymptotic_one_factorization"
 git = "https://github.com/jtraverso/asymptotic-one-factorization"
 rev = "50bc0b383e5447dc4b70db20e3af1c6c5efc1c2f"
+
+[[require]]
+name = "plantholt_overfull"
+git = "https://github.com/jtraverso/plantholt-overfull-criterion"
+rev = "f8900944da7743b1facd771139c9ebdbfd8aaa28"

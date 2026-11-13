@@ -157,6 +157,30 @@
    "inputRev": "50bc0b383e5447dc4b70db20e3af1c6c5efc1c2f",
    "inherited": false,
    "configFile": "lakefile.toml"
+  },
+  {
+   "url": "https://github.com/jtraverso/plantholt-overfull-criterion",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "f8900944da7743b1facd771139c9ebdbfd8aaa28",
+   "name": "plantholt_overfull",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "f8900944da7743b1facd771139c9ebdbfd8aaa28",
+   "inherited": false,
+   "configFile": "lakefile.toml"
+  },
+  {
+   "url": "https://github.com/jtraverso/overfull-critical-graphs",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "b85da9ac66e0fb8b9873a8bea0c057f78c9d186c",
+   "name": "ccjs_overfull",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "b85da9ac66e0fb8b9873a8bea0c057f78c9d186c",
+   "inherited": true,
+   "configFile": "lakefile.toml"
   }
  ],
  "name": "plantholt_shan",

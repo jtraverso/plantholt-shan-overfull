@@ -24,6 +24,8 @@ namespace PSLib.Eng
 open Finset SimpleGraph
 open scoped Classical
 
+attribute [-instance] SimpleGraph.Sdiff.adjDecidable
+
 variable {V : Type*} [Fintype V] [DecidableEq V]
 
 /-- The matching of a partner map. -/
@@ -67,11 +69,15 @@ theorem remove_pm (G : SimpleGraph V) (W : Finset V) (τ : V → V)
       intro u hu
       rw [mem_neighborFinset] at hu ⊢
       exact hle hu
-    rw [← card_neighborFinset_eq_degree, ← card_neighborFinset_eq_degree, h1,
-      card_sdiff_of_subset h2, card_neighborFinset_eq_degree, ← hdM v]
-    have := card_le_card h2
-    rw [card_neighborFinset_eq_degree, card_neighborFinset_eq_degree] at this
-    omega
+    have h3 : (G \ M).degree v = G.degree v - M.degree v := by
+      rw [← card_neighborFinset_eq_degree, ← card_neighborFinset_eq_degree,
+        ← card_neighborFinset_eq_degree, h1, card_sdiff_of_subset h2]
+    have h4 : M.degree v ≤ G.degree v := by
+      have := card_le_card h2
+      rwa [card_neighborFinset_eq_degree, card_neighborFinset_eq_degree] at this
+    have h5 := hdM v
+    rw [h3]
+    split_ifs at h5 ⊢ <;> omega
   · refine colorable_of_le_sup (H₁ := G \ M) (H₂ := M) (fun u v h => ?_) ha
       (colorable_one_of_degree_le_one M fun v => by rw [hdM]; split_ifs <;> omega)
     by_cases hm : M.Adj u v
